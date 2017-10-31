@@ -27,8 +27,8 @@
   "scripts": {
     "build": "shx rm -rf public/** && NODE_ENV=production webpack -p --progress",
     "start": "npm run dev-server & webpack-dev-server",
-    "dev-server": "npm run build & nodemon server --harmony",
-    "server": "npm run build & node server --harmony"
+    "dev-server": "nodemon server --harmony",
+    "server": "node server --harmony"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
