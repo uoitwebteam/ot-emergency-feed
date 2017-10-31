@@ -1,0 +1,16 @@
+const express = require('express');
+const cors = require('cors');
+
+const { PollingSocketServer } = require('mighty-polling-socket-server');
+const { SOURCE_LIST } = require('./sources');
+
+const pss = new PollingSocketServer({
+  defaultInterval: 2000,
+  checkHeartbeat: true
+});
+
+pss.app.use(cors());
+pss.app.use(express.static('public'));
+pss.app.use(express.static('server/xml'));
+pss.sources(SOURCE_LIST);
+pss.broadcast(8080);
