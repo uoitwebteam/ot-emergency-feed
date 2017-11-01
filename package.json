@@ -29,8 +29,8 @@
     "start": "npm run dev-server & webpack-dev-server",
     "dev-server": "nodemon server --harmony",
     "server": "node server --harmony",
-    "heroku-prebuild": "yarn --production=false --force",
-    "heroku-postbuild": "NODE_ENV=production node_modules/.bin/webpack -p --progress"
+    "heroku-prebuild": "npm install --only=dev",
+    "heroku-postbuild": "NODE_ENV=production webpack -p --progress"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
