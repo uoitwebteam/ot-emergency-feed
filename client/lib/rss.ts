@@ -29,10 +29,10 @@ export class RSSUtility {
    * @memberof RSSUtility
    */
   parseItems<I extends RSS.Item, T>(data: RSSFeed, transform?: (item: I) => T): (T | I)[] {
-    const channelItems: (T | I)[] = data.rss.channel[0].item && data.rss.channel[0].item.length
-      ?  <I[]>data.rss.channel[0].item
-      : [];
-    return transform ? channelItems.map(transform) : channelItems;
+      const channelItems: (T | I)[] = data && data.rss.channel[0].item && data.rss.channel[0].item.length
+        ? <I[]>data.rss.channel[0].item
+        : [];
+      return transform ? channelItems.map(transform) : channelItems;
   }
 
   /**
