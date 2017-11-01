@@ -1,4 +1,4 @@
-import { SocketPollClient } from 'mighty-polling-socket-server';
+import { SocketPollClient } from 'mighty-polling-socket-server/client';
 import './styles/main.scss';
 
 import {
