@@ -8,8 +8,8 @@ const TYPE_WEATHER = 'weather';
 const SOURCE_LIST = [
   {
     type: TYPE_DISRUPTION,
-    url: 'http://localhost:8080/service_disruptions.xml',
-    // url: 'https://news.uoit.ca/topic/service_disruptions_test.xml',
+    // url: 'http://localhost:8080/service_disruptions.xml',
+    url: 'https://shared.uoit.ca/global/inc/get/servicedisruptionsdemo.xml',
     compare: (
       { rss: { channel: [{ pubDate: [oldData] }] } },
       { rss: { channel: [{ pubDate: [newData] }] } }
@@ -18,8 +18,8 @@ const SOURCE_LIST = [
   },
   {
     type: TYPE_EMERGENCY,
-    url: 'http://localhost:8080/emergency_messages.xml',
-    // url: 'https://shared.uoit.ca/global/inc/get/emergencyfeeddemo.xml',
+    // url: 'http://localhost:8080/emergency_messages.xml',
+    url: 'https://shared.uoit.ca/global/inc/get/emergencyfeeddemo.xml',
     compare: (
       { rss: { channel: [{ item: [{ pubDate: [oldData] }] }] } },
       { rss: { channel: [{ item: [{ pubDate: [newData] }] }] } },
