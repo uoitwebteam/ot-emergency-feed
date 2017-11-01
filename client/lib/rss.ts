@@ -1,4 +1,4 @@
-import { RSS } from 'mighty-polling-socket-server/client';
+import { RSS } from 'mighty-polling-socket-server';
 
 /** Container type for `xml2js` RSS feeds */
 export type RSSFeed = { rss: RSS.Feed };
