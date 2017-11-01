@@ -1,4 +1,4 @@
-import { RSS, RSSExtras } from 'mighty-polling-socket-server';
+import { RSS, RSSExtras } from 'mighty-polling-socket-server/client';
 
 const item: RSS.Item = {
   title: ['']

@@ -1,4 +1,4 @@
-import { RSS } from 'mighty-polling-socket-server';
+import { RSS } from 'mighty-polling-socket-server/client';
 
 import { MessageBase } from '.';
 
