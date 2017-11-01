@@ -27,9 +27,10 @@
   "scripts": {
     "build": "shx rm -rf public/** && NODE_ENV=production webpack -p --progress",
     "start": "npm run dev-server & webpack-dev-server",
-    "postinstall": "NODE_ENV=production webpack -p --progress",
     "dev-server": "nodemon server --harmony",
-    "server": "node server --harmony"
+    "server": "node server --harmony",
+    "heroku-prebuild": "npm install --only=dev",
+    "heroku-postbuild": "NODE_ENV=production webpack -p --progress"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
