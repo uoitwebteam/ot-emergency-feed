@@ -3164,9 +3164,9 @@ micromatch@^2.1.5, micromatch@^2.3.11:
     parse-glob "^3.0.4"
     regex-cache "^0.4.2"
 
-mighty-polling-socket-server@^1.1.4:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/mighty-polling-socket-server/-/mighty-polling-socket-server-1.1.4.tgz#3522d5e22718a8879048d72a3c71d91d1d5ade20"
+mighty-polling-socket-server@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/mighty-polling-socket-server/-/mighty-polling-socket-server-1.1.6.tgz#280be7e3a28657f767a01fb30ac561d24c4eb7ad"
   dependencies:
     express "~4.14.0"
     express-ws "^3.0.0"
@@ -4279,7 +4279,7 @@ repeating@^2.0.0:
   dependencies:
     is-finite "^1.0.0"
 
-request@2, request@^2.75.0, request@^2.79.0:
+request@2, request@^2.75.0, request@^2.79.0, request@^2.83.0:
   version "2.83.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.83.0.tgz#ca0b65da02ed62935887808e6f510381034e3356"
   dependencies:
