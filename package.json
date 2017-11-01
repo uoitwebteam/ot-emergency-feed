@@ -29,7 +29,7 @@
     "start": "npm run dev-server & webpack-dev-server",
     "dev-server": "nodemon server --harmony",
     "server": "node server --harmony",
-    "heroku-prebuild": "npm install --only=dev",
+    "heroku-prebuild": "yarn --production=false --force",
     "heroku-postbuild": "NODE_ENV=production node node_modules/webpack/bin/webpack.js -p --progress"
   },
   "devDependencies": {
