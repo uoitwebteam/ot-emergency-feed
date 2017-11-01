@@ -58,4 +58,4 @@ typings/
 .env
 
 # built testing files
-public/
+# public/
