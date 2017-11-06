@@ -4,7 +4,7 @@ import { RSS } from 'mighty-polling-socket-server';
 export type RSSFeed = { rss: RSS.Feed };
 
 /** One week in seconds */
-const ONE_WEEK = 7*24*60*60*1000;
+const TWO_WEEKS = 2*7*24*60*60*1000;
 /** Cookie name to reuse for `trackLastViewed` */
 const COOKIE_NAME = 'last-viewed-pubdate';
 
@@ -89,7 +89,7 @@ export class RSSUtility {
    */
   private _setCookie(name, value) {
     const date = new Date();
-    date.setTime(date.getTime() + ONE_WEEK);
+    date.setTime(date.getTime() + TWO_WEEKS);
     document.cookie = `${name}=${value}; expires=${date.toUTCString()}; path=/;`;
   }
 }

@@ -70,7 +70,7 @@ client.on<TYPE_DISRUPTION, RSSFeed>(TYPE_DISRUPTION, ({ data }) => {
       </div>`).join('\n');
       serviceDisruptionMessage.innerHTML = html;
     }
-  // } else {
+  } // else {
     if (!viewedBefore) {
       /** If not viewed, show notification and redirect to new page */
       const html = `<span class="icon_emergency warning text-larger"></span>
@@ -86,7 +86,7 @@ client.on<TYPE_DISRUPTION, RSSFeed>(TYPE_DISRUPTION, ({ data }) => {
         }
       });
     }
-  }
+  // }
 });
 
 /**
