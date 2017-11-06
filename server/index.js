@@ -7,8 +7,7 @@ const { SOURCE_LIST } = require('./sources');
 const pss = new PollingSocketServer({
   defaultInterval: 2000,
   checkHeartbeat: true,
-  logging: false,
-  stats: true
+  logging: false
 });
 
 pss.app.use(cors());

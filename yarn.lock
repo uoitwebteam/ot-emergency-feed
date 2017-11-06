@@ -3189,9 +3189,9 @@ micromatch@^2.1.5, micromatch@^2.3.11:
     parse-glob "^3.0.4"
     regex-cache "^0.4.2"
 
-mighty-polling-socket-server@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/mighty-polling-socket-server/-/mighty-polling-socket-server-1.2.0.tgz#f67792475ec2d23f5c750a274bd7a3c7d9854be0"
+mighty-polling-socket-server@1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/mighty-polling-socket-server/-/mighty-polling-socket-server-1.2.1.tgz#d63a3cced908107cf1d44cdfaa9b4124eedad270"
   dependencies:
     "@akanass/rx-http-request" "^2.6.0"
     express "~4.14.0"
