@@ -149,14 +149,14 @@ client.on<TYPE_EMERGENCY, RSSFeed>(TYPE_EMERGENCY, ({ data }) => {
 });
 
 
-const TYPE_STATS = 'stats';
-type TYPE_STATS = typeof TYPE_STATS;
-type Stats = {
-  pool: number;
-  idle: boolean;
-  intervals: any;
-  log: any;
-};
-client.on<TYPE_STATS, Stats>('stats', ({ data }) => {
-  console.info('[stats]', data)
-});
+// const TYPE_STATS = 'stats';
+// type TYPE_STATS = typeof TYPE_STATS;
+// type Stats = {
+//   pool: number;
+//   idle: boolean;
+//   intervals: any;
+//   log: any;
+// };
+// client.on<TYPE_STATS, Stats>('stats', ({ data }) => {
+//   console.info('[stats]', data)
+// });
