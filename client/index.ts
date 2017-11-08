@@ -23,9 +23,9 @@ const client = new SocketPollClient();
 /**
  * Hold references to all feed containers (also provides a null checks).
  */
-const emergencyMessageBar = document.getElementById('emergencyMessageBar');
-const emergencyFeedMessage = document.getElementById('emergencyFeedMessage');
-const serviceDisruptionMessage = document.getElementById('serviceDisruptionMessage');
+const emergencyMessageBarEl = document.getElementById('emergencyMessageBar');
+const emergencyFeedMessageEl = document.getElementById('emergencyFeedMessage');
+const serviceDisruptionMessageEl = document.getElementById('serviceDisruptionMessage');
 
 /**
  * A bind-ready function for running a 5-second countdown
@@ -59,25 +59,22 @@ client.on<TYPE_DISRUPTION, RSSFeed>(TYPE_DISRUPTION, ({ data }) => {
   /** Sets and compares a cookie of last viewed pubDate */
   const viewedBefore = rss.checkViewStatus(TYPE_DISRUPTION, data);
 
-  if (serviceDisruptionMessage) {
+  if (serviceDisruptionMessageEl) {
     const rssItems = rss.parseItems(data, (item: ServiceDisruptionRSSItem) => new ServiceDisruption(item));
 
     if (rssItems.length) {
-      const html = rssItems.map((item: ServiceDisruption)  => `<div class="emergencyNewsItem">
+      serviceDisruptionMessageEl.innerHTML = rssItems.map((item: ServiceDisruption)  => `<div class="emergencyNewsItem">
         <a href="${ item.link }" title="${ item.title }"><img src="${ item.mediaContent }" alt="${ item.mediaDescription }" width="100" height="67"></a>
         <p><strong><a href="${ item.link }">${ item.title }</strong></a></p>
         <p class="date">${ item.pubDate }</p>
       </div>`).join('\n');
-      serviceDisruptionMessage.innerHTML = html;
     }
   } // else {
     if (!viewedBefore) {
       /** If not viewed, show notification and redirect to new page */
-      const html = `<span class="icon_emergency warning text-larger"></span>
+      toast.notify(`<span class="icon_emergency warning text-larger"></span>
         <strong>Notice:</strong> A new service disruption has been posted! 
-        <a href="#"><strong>More info &raquo;</strong></a>`;
-
-      toast.notify(html, {
+        <a href="#"><strong>More info &raquo;</strong></a>`, {
         duration: 8000,
         className: 'warning',
         position: {
@@ -104,16 +101,15 @@ client.on<TYPE_EMERGENCY, RSSFeed>(TYPE_EMERGENCY, ({ data }) => {
   const rssItems = rss.parseItems(data, item => new EmergencyMessage(item));
 
   if (rssItems.length) {
-    if (emergencyFeedMessage) {
-      const html = rssItems.map(item => `<p class="emergencyTitle">${item.title}</p>
+    if (emergencyFeedMessageEl) {
+      emergencyFeedMessageEl.innerHTML = rssItems.map(item => `<p class="emergencyTitle">${item.title}</p>
         <p class="emergencyDesc">${item.description}</p>
         <p class="emergencyDate">${item.pubDate}</p>`).join('\n');
-      emergencyFeedMessage.innerHTML = html;
     }
 
-    if (emergencyMessageBar && viewedBefore) {
+    if (emergencyMessageBarEl && viewedBefore) {
       /** If viewed before, just display info bar */
-      const html = rssItems.map(item => `<div class="row">
+      emergencyMessageBarEl.innerHTML = rssItems.map(item => `<div class="row">
         <a href="${REDIRECT_URL}">
           <div class="emergencyAlert">
           Emergency Alert
@@ -125,16 +121,13 @@ client.on<TYPE_EMERGENCY, RSSFeed>(TYPE_EMERGENCY, ({ data }) => {
           </div>
         </a>
       </div>`).join('\n');
-      emergencyMessageBar.innerHTML = html;
     }
 
-    if (!viewedBefore) { //!emergencyMessageBar && !emergencyFeedMessage && 
+    if (!viewedBefore) { //!emergencyMessageBarEl && !emergencyFeedMessageEl && 
       /** If not viewed, show notification and redirect to new page */
-      const html = `<span class="icon_emergency alert text-larger"></span>
+      toast.notify(`<span class="icon_emergency alert text-larger"></span>
         <strong>Notice:</strong> You are about to be redirected to an emergency message!
-        <br/><small>Redirecting in:</small> <strong class="countdown"></strong>`;
-
-      toast.notify(html, {
+        <br/><small>Redirecting in:</small> <strong class="countdown"></strong>`, {
         duration: 5000,
         className: 'alert',
         position: {
@@ -144,6 +137,16 @@ client.on<TYPE_EMERGENCY, RSSFeed>(TYPE_EMERGENCY, ({ data }) => {
         onNotify,
         onDismiss
       });
+    }
+  } else {
+    if (emergencyFeedMessageEl) {
+      emergencyFeedMessageEl.innerHTML = `<p>
+        There are no emergencies at the University of Ontario Institute of Technology at this time.
+        <br>Please see information below for updates.
+      </p>`;
+    }
+    if (emergencyMessageBarEl) {
+      emergencyMessageBarEl.innerHTML = '';
     }
   }
 });
