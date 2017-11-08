@@ -24,7 +24,7 @@ const SOURCE_LIST = [
       { rss: { channel: [{ item: [{ pubDate: [oldData] }] }] } },
       { rss: { channel: [{ item: [{ pubDate: [newData] }] }] } },
     ) => oldData === newData,
-    // interval: 1000,
+    interval: 1000,
     xml: true
   }
 ]
