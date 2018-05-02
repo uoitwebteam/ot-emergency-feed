@@ -57,5 +57,8 @@ typings/
 # dotenv environment variables file
 .env
 
+# PM2 ecosystem
+ecosystem.config.js
+
 # built testing files
 # public/
