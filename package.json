@@ -21,9 +21,6 @@
     "express": "^4.16.2",
     "mighty-polling-socket-server": "1.2.2"
   },
-  "engines": {
-    "node": "8.11.1"
-  },
   "scripts": {
     "build": "shx rm -rf public/** && NODE_ENV=production webpack -p --progress",
     "start": "npm run dev-server & webpack-dev-server",
