@@ -31,15 +31,15 @@ const compare = (last, current) => {
 const SOURCE_LIST = [
   {
     type: TYPE_DISRUPTION,
-    url: 'http://localhost:8080/service_disruptions.xml',
-    // url: 'https://shared.uoit.ca/global/inc/get/servicedisruptionsdemo.xml',
+    // url: 'http://localhost:8080/service_disruptions.xml',
+    url: 'https://shared.uoit.ca/global/inc/get/servicedisruptionsdemo.xml',
     xml: true,
     compare
   },
   {
     type: TYPE_EMERGENCY,
-    url: 'http://localhost:8080/emergency_messages.xml',
-    // url: 'https://shared.uoit.ca/global/inc/get/emergencyfeeddemo.xml',
+    // url: 'http://localhost:8080/emergency_messages.xml',
+    url: 'https://shared.uoit.ca/global/inc/get/emergencyfeeddemo.xml',
     interval: 1000,
     xml: true,
     compare
