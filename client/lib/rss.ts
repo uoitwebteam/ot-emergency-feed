@@ -3,6 +3,8 @@ import { RSS } from 'mighty-polling-socket-server/dist';
 /** Container type for `xml2js` RSS feeds */
 export type RSSFeed = { rss: RSS.Feed };
 
+export type ViewStatusCallback = (status: boolean) => any | void;
+
 /** One week in seconds */
 const TWO_WEEKS = 2 * 7 * 24 * 60 * 60 * 1000;
 /** Cookie name to reuse for `trackLastViewed` */
@@ -45,8 +47,8 @@ export class RSSUtility {
    * @param {RSSFeed} data
    * @memberof RSSUtility
    */
-  checkViewStatus(type: string, data: RSSFeed) {
-    const cookieName = `${COOKIE_NAME}_${encodeURIComponent(type)}`;
+  checkViewStatus(type: string, data: RSSFeed, callback?: ViewStatusCallback) {
+    const cookieName = this._getCookieName(type);
     let cookieDate;
     try {
       const pubDate = (data.rss.channel[0].pubDate || data.rss.channel[0].item[0].pubDate)[0];
@@ -56,12 +58,22 @@ export class RSSUtility {
       return;
     }
     const lastViewedPubDate = this._getCookie(cookieName);
-    if (cookieDate !== lastViewedPubDate) {
-      this._setCookie(cookieName, cookieDate);
-      return false;
-    } else {
-      return true;
+    const viewedStatus = cookieDate === lastViewedPubDate;
+    if (callback) {
+      callback(viewedStatus);
     }
+    return viewedStatus || (this._setCookie(cookieName, cookieDate) || false);
+  }
+
+  /**
+   * Gets a formatted cookie name.
+   *
+   * @private
+   * @param {string} type
+   * @memberof RSSUtility
+   */
+  private _getCookieName(type: string) {
+    return `${COOKIE_NAME}_${encodeURIComponent(type)}`;
   }
 
   /**
