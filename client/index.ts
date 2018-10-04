@@ -1,24 +1,20 @@
 import { SocketPollClient } from 'mighty-polling-socket-server/dist';
 import './styles/main.scss';
 
+import { RSSUtility, RSSFeed, Notification } from './lib';
 import {
-  RSSUtility,
-  RSSFeed,
-  Notification
-} from './lib';
-import { 
   ServiceDisruption,
   ServiceDisruptionRSSItem,
   EmergencyMessage,
   TYPE_DISRUPTION,
-  TYPE_EMERGENCY,
+  TYPE_EMERGENCY
 } from './models';
 
 const REDIRECT_URL = 'http://uoit.ca/emergency';
 
 const rss = new RSSUtility();
 const toast = new Notification();
-const client = new SocketPollClient();
+const client = new SocketPollClient('wss://uoit-emergency-feed.herokuapp.com');
 
 /**
  * Hold references to all feed containers (also provides a null checks).
@@ -33,7 +29,8 @@ const serviceDisruptionMessageEl = document.getElementById('serviceDisruptionMes
  * redirects, to notify of impending redirection.
  */
 const onNotify = function startCountdown() {
-  let secondsLeft = 5, countdownDone = false;
+  let secondsLeft = 5,
+    countdownDone = false;
   const elements: Element[] = [...this.childNodes];
   const countdownEl = elements.find(el => el.classList && el.classList.contains('countdown'));
   countdownEl.innerHTML = `${secondsLeft} seconds`;
@@ -42,7 +39,7 @@ const onNotify = function startCountdown() {
     countdownDone = secondsLeft === 0;
     countdownEl.innerHTML = countdownDone ? 'Now!' : `${secondsLeft} seconds`;
     countdownDone && clearInterval(ticker);
-  }, 1000)
+  }, 1000);
 };
 
 /**
@@ -60,29 +57,41 @@ client.on<TYPE_DISRUPTION, RSSFeed>(TYPE_DISRUPTION, ({ data }) => {
   const viewedBefore = rss.checkViewStatus(TYPE_DISRUPTION, data);
 
   if (serviceDisruptionMessageEl) {
-    const rssItems = rss.parseItems(data, (item: ServiceDisruptionRSSItem) => new ServiceDisruption(item));
+    const rssItems = rss.parseItems(
+      data,
+      (item: ServiceDisruptionRSSItem) => new ServiceDisruption(item)
+    );
 
     if (rssItems.length) {
-      serviceDisruptionMessageEl.innerHTML = rssItems.map((item: ServiceDisruption)  => `<div class="emergencyNewsItem">
-        <a href="${ item.link }" title="${ item.title }"><img src="${ item.mediaContent }" alt="${ item.mediaDescription }" width="100" height="67"></a>
-        <p><strong><a href="${ item.link }">${ item.title }</strong></a></p>
-        <p class="date">${ item.pubDate }</p>
-      </div>`).join('\n');
+      serviceDisruptionMessageEl.innerHTML = rssItems
+        .map(
+          (item: ServiceDisruption) => `<div class="emergencyNewsItem">
+        <a href="${item.link}" title="${item.title}"><img src="${item.mediaContent}" alt="${
+            item.mediaDescription
+          }" width="100" height="67"></a>
+        <p><strong><a href="${item.link}">${item.title}</strong></a></p>
+        <p class="date">${item.pubDate}</p>
+      </div>`
+        )
+        .join('\n');
     }
   } // else {
-    if (!viewedBefore) {
-      /** If not viewed, show notification and redirect to new page */
-      toast.notify(`<span class="icon_emergency warning text-larger"></span>
+  if (!viewedBefore) {
+    /** If not viewed, show notification and redirect to new page */
+    toast.notify(
+      `<span class="icon_emergency warning text-larger"></span>
         <strong>Notice:</strong> A new service disruption has been posted! 
-        <a href="#"><strong>More info &raquo;</strong></a>`, {
+        <a href="#"><strong>More info &raquo;</strong></a>`,
+      {
         duration: 8000,
         className: 'warning',
         position: {
           right: true,
           bottom: true
         }
-      });
-    }
+      }
+    );
+  }
   // }
 });
 
@@ -90,7 +99,7 @@ client.on<TYPE_DISRUPTION, RSSFeed>(TYPE_DISRUPTION, ({ data }) => {
  * Listens to incoming emergency message socket data. Responsible for
  * mapping `RSSItem` objects to more useful `EmergencyMessage`
  * instances, and building a templated list from the items (if any).
- * 
+ *
  * Checks and tracks view status of last received message; if last
  * has not been tracked as viewed, prompts user with a notification
  * and redirects to a new page. If already viewed, displays info bar.
@@ -102,14 +111,20 @@ client.on<TYPE_EMERGENCY, RSSFeed>(TYPE_EMERGENCY, ({ data }) => {
 
   if (rssItems.length) {
     if (emergencyFeedMessageEl) {
-      emergencyFeedMessageEl.innerHTML = rssItems.map(item => `<p class="emergencyTitle">${item.title}</p>
+      emergencyFeedMessageEl.innerHTML = rssItems
+        .map(
+          item => `<p class="emergencyTitle">${item.title}</p>
         <p class="emergencyDesc">${item.description}</p>
-        <p class="emergencyDate">${item.pubDate}</p>`).join('\n');
+        <p class="emergencyDate">${item.pubDate}</p>`
+        )
+        .join('\n');
     }
 
     if (emergencyMessageBarEl && viewedBefore) {
       /** If viewed before, just display info bar */
-      emergencyMessageBarEl.innerHTML = rssItems.map(item => `<div class="row">
+      emergencyMessageBarEl.innerHTML = rssItems
+        .map(
+          item => `<div class="row">
         <a href="${REDIRECT_URL}">
           <div class="emergencyAlert">
           Emergency Alert
@@ -120,23 +135,29 @@ client.on<TYPE_EMERGENCY, RSSFeed>(TYPE_EMERGENCY, ({ data }) => {
             <span class="emergencyDate">${item.pubDate}</span>
           </div>
         </a>
-      </div>`).join('\n');
+      </div>`
+        )
+        .join('\n');
     }
 
-    if (!viewedBefore) { //!emergencyMessageBarEl && !emergencyFeedMessageEl && 
+    if (!viewedBefore) {
+      //!emergencyMessageBarEl && !emergencyFeedMessageEl &&
       /** If not viewed, show notification and redirect to new page */
-      toast.notify(`<span class="icon_emergency alert text-larger"></span>
+      toast.notify(
+        `<span class="icon_emergency alert text-larger"></span>
         <strong>Notice:</strong> You are about to be redirected to an emergency message!
-        <br/><small>Redirecting in:</small> <strong class="countdown"></strong>`, {
-        duration: 5000,
-        className: 'alert',
-        position: {
-          right: true,
-          bottom: true
-        },
-        onNotify,
-        onDismiss
-      });
+        <br/><small>Redirecting in:</small> <strong class="countdown"></strong>`,
+        {
+          duration: 5000,
+          className: 'alert',
+          position: {
+            right: true,
+            bottom: true
+          },
+          onNotify,
+          onDismiss
+        }
+      );
     }
   } else {
     if (emergencyFeedMessageEl) {
@@ -150,7 +171,6 @@ client.on<TYPE_EMERGENCY, RSSFeed>(TYPE_EMERGENCY, ({ data }) => {
     }
   }
 });
-
 
 // const TYPE_STATS = 'stats';
 // type TYPE_STATS = typeof TYPE_STATS;

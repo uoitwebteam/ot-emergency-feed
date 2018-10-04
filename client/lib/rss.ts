@@ -4,13 +4,13 @@ import { RSS } from 'mighty-polling-socket-server/dist';
 export type RSSFeed = { rss: RSS.Feed };
 
 /** One week in seconds */
-const TWO_WEEKS = 2*7*24*60*60*1000;
+const TWO_WEEKS = 2 * 7 * 24 * 60 * 60 * 1000;
 /** Cookie name to reuse for `trackLastViewed` */
 const COOKIE_NAME = 'last-viewed-pubdate';
 
 /**
  * Utility class for RSS feed parsing and actions.
- * 
+ *
  * @export
  * @class RSSUtility
  */
@@ -20,19 +20,20 @@ export class RSSUtility {
    * Receives an optional transform function that is applied
    * to the items after they are extracted. Returns an array of
    * either `RSS.Item` objects or a type specified in transform.
-   * 
-   * @template I 
-   * @template T 
-   * @param {RSSFeed} data 
-   * @param {(item: I) => T} [transform] 
-   * @returns {((T | I)[])} 
+   *
+   * @template I
+   * @template T
+   * @param {RSSFeed} data
+   * @param {(item: I) => T} [transform]
+   * @returns {((T | I)[])}
    * @memberof RSSUtility
    */
   parseItems<I extends RSS.Item, T>(data: RSSFeed, transform?: (item: I) => T): (T | I)[] {
-      const channelItems: (T | I)[] = data && data.rss.channel[0].item && data.rss.channel[0].item.length
+    const channelItems: (T | I)[] =
+      data && data.rss.channel[0].item && data.rss.channel[0].item.length
         ? <I[]>data.rss.channel[0].item
         : [];
-      return transform ? channelItems.map(transform) : channelItems;
+    return transform ? channelItems.map(transform) : channelItems;
   }
 
   /**
@@ -40,7 +41,7 @@ export class RSSUtility {
    * against a cookie set to the publish date of the last viewed data.
    * If the dates do not match, stores the new date in the cookie. Returns
    * true if viewed already, false if not.
-   * 
+   *
    * @param {RSSFeed} data
    * @memberof RSSUtility
    */
@@ -65,7 +66,7 @@ export class RSSUtility {
 
   /**
    * Gets a document cookie value by name.
-   * 
+   *
    * @private
    * @param {any} name
    * @memberof RSSUtility
@@ -74,17 +75,20 @@ export class RSSUtility {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) {
-      return parts.pop().split(';').shift();
+      return parts
+        .pop()
+        .split(';')
+        .shift();
     }
   }
 
   /**
    * Sets a document cookie by name to a given value and sets
    * an expiry date of one week from now.
-   * 
+   *
    * @private
-   * @param {any} name 
-   * @param {any} value 
+   * @param {any} name
+   * @param {any} value
    * @memberof RSSUtility
    */
   private _setCookie(name, value) {
