@@ -1,12 +1,18 @@
 const path = require('path');
 const webpack = require('webpack');
-const { getIfUtils, removeEmpty } = require('webpack-config-utils');
+const {
+  getIfUtils,
+  removeEmpty
+} = require('webpack-config-utils');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const nodeEnv = process.env.NODE_ENV || 'development';
-const { ifDevelopment, ifProduction } = getIfUtils(nodeEnv);
+const {
+  ifDevelopment,
+  ifProduction
+} = getIfUtils(nodeEnv);
 
 const babelOptions = {
   presets: [
@@ -27,8 +33,7 @@ module.exports = removeEmpty({
   },
 
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.(sass|scss)$/,
         loader: ExtractTextPlugin.extract({
           fallback: 'style-loader',
@@ -45,8 +50,7 @@ module.exports = removeEmpty({
       {
         test: /\.ts(x?)$/,
         exclude: /node_modules/,
-        use: [
-          {
+        use: [{
             loader: 'babel-loader',
             options: babelOptions
           },
@@ -90,13 +94,13 @@ module.exports = removeEmpty({
     }),
 
     // ifDevelopment(
-      new HtmlWebpackPlugin({
-        hash: true,
-        filename: 'index.html',
-        template: './client/index.ejs',
-        inject: false,
-        environment: nodeEnv,
-      }),
+    new HtmlWebpackPlugin({
+      hash: true,
+      filename: 'index.html',
+      template: './client/index.ejs',
+      inject: false,
+      environment: nodeEnv,
+    }),
     // ),
 
     // ifProduction(new CopyWebpackPlugin([{ from: 'assets', to: 'assets' }])),

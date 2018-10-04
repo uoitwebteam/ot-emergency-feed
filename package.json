@@ -19,10 +19,12 @@
   "dependencies": {
     "cors": "^2.8.4",
     "express": "^4.16.3",
-    "mighty-polling-socket-server": "1.2.3"
+    "mighty-polling-socket-server": "^1.2.4"
   },
   "scripts": {
-    "build": "shx rm -rf public/** && NODE_ENV=production webpack -p --progress",
+    "build": "npm run clean && NODE_ENV=production npm run webpack -- -p",
+    "webpack": "webpack --progress",
+    "clean": "shx rm -rf public/**",
     "start": "npm run dev-server & webpack-dev-server",
     "dev-server": "nodemon server --harmony",
     "server": "node server --harmony"
