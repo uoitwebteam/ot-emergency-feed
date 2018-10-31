@@ -19,7 +19,7 @@
   "dependencies": {
     "cors": "^2.8.4",
     "express": "^4.16.3",
-    "mighty-polling-socket-server": "^1.2.4"
+    "mighty-polling-socket-server": "^1.2.5"
   },
   "scripts": {
     "build": "npm run clean && NODE_ENV=production npm run webpack -- -p",
