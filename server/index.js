@@ -11,7 +11,7 @@ const {
 const pss = new PollingSocketServer({
   defaultInterval: 2000,
   checkHeartbeat: true,
-  // logging: false
+  logging: true
 });
 
 pss.app.use(cors());
