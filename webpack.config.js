@@ -83,7 +83,13 @@ module.exports = removeEmpty({
     port: 3000,
     stats: 'normal',
     open: true,
-    overlay: true
+    overlay: true,
+    proxy: {
+      'ws://0.0.0.0:3000': {
+        target: 'ws://localhost:8080',
+        ws: true
+      }
+    }
   }),
 
   plugins: removeEmpty([
