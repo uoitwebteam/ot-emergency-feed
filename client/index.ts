@@ -14,7 +14,7 @@ const REDIRECT_URL = 'http://uoit.ca/emergency';
 
 const rss = new RSSUtility();
 const toast = new Notification();
-const client = new SocketPollClient('wss://uoit-emergency-feed.herokuapp.com');
+const client = new SocketPollClient();
 
 /**
  * Hold references to all feed containers (also provides a null checks).

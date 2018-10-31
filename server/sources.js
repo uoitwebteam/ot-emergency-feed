@@ -5,31 +5,38 @@ const TYPE_DISRUPTION = 'disruption';
 const TYPE_EMERGENCY = 'emergency';
 const TYPE_WEATHER = 'weather';
 
-const compare = (last, current) => {
-  const [lastChannel] = last.rss.channel;
-  const [currentChannel] = current.rss.channel;
-
-  const lastItems = lastChannel.item;
-  const currentItems = currentChannel.item
-
-  if ((!lastItems && currentItems) || (!currentItems && lastItems)) return false;
-
-  if (lastChannel.pubDate && currentChannel.pubDate) {
-    const [lastPubDate] = lastChannel.pubDate;
-    const [currentPubDate] = currentChannel.pubDate;
-    return lastPubDate === currentPubDate;;
+const compare = ({
+  rss: {
+    channel: [{
+      item: oldItem
+    }]
   }
-
-  if (lastItems.length && currentItems.length) {
-    if (lastItems.length !== currentItems.length) return false;
-    const [{ pubDate: [lastItemPubDate] }] = lastItems;
-    const [{ pubDate: [currentItemPubDate] }] = currentItems;
-    return lastItemPubDate === currentItemPubDate;
+}, {
+  rss: {
+    channel: [{
+      item: newItem
+    }]
   }
-};
+}, ) => {
+  if (oldItem && oldItem.length) {
+    if (!newItem || !newItem.length || newItem.length !== oldItem.length) {
+      return false;
+    }
+    if (newItem && newItem.length) {
+      const [{
+        pubDate: [oldLastDate]
+      }] = oldItem;
+      const [{
+        pubDate: [newLastDate]
+      }] = newItem;
+      return oldLastDate === newLastDate;
+    }
+  } else {
+    return !(newItem && newItem.length);
+  }
+}
 
-const SOURCE_LIST = [
-  {
+const SOURCE_LIST = [{
     type: TYPE_DISRUPTION,
     // url: 'http://localhost:8080/service_disruptions.xml',
     url: 'https://shared.uoit.ca/global/inc/get/servicedisruptionsdemo.xml',
@@ -46,4 +53,9 @@ const SOURCE_LIST = [
   }
 ]
 
-exports = module.exports = { SOURCE_LIST, TYPE_DISRUPTION, TYPE_EMERGENCY, TYPE_WEATHER };
+exports = module.exports = {
+  SOURCE_LIST,
+  TYPE_DISRUPTION,
+  TYPE_EMERGENCY,
+  TYPE_WEATHER
+};

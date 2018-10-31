@@ -1,8 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 
-const { PollingSocketServer } = require('mighty-polling-socket-server');
-const { SOURCE_LIST } = require('./sources');
+const {
+  PollingSocketServer
+} = require('mighty-polling-socket-server');
+const {
+  SOURCE_LIST
+} = require('./sources');
 
 const pss = new PollingSocketServer({
   defaultInterval: 2000,

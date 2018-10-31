@@ -51,7 +51,10 @@ export class RSSUtility {
     const cookieName = this._getCookieName(type);
     let cookieDate;
     try {
-      const pubDate = (data.rss.channel[0].pubDate || data.rss.channel[0].item[0].pubDate)[0];
+      let pubDate;
+      if (data.rss.channel && data.rss.channel[0].item) {
+        pubDate = (data.rss.channel[0].pubDate || data.rss.channel[0].item[0].pubDate)[0];
+      }
       cookieDate = new Date(pubDate).getTime().toString();
     } catch (err) {
       console.warn(`Error parsing RSS pubDate: ${err}`);
