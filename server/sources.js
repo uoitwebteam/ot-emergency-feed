@@ -38,15 +38,17 @@ const compare = ({
 
 const SOURCE_LIST = [{
     type: TYPE_DISRUPTION,
-    // url: 'http://localhost:8080/service_disruptions.xml',
-    url: 'https://shared.uoit.ca/global/inc/get/servicedisruptionsdemo.xml',
+    // url: 'http://localhost:8080/service_disruptions.xml', // testing
+    // url: 'https://shared.uoit.ca/global/inc/get/servicedisruptionsdemo.xml', // staging
+    url: 'https://news.uoit.ca/topic/service_disruptions.xml', // production
     xml: true,
     compare
   },
   {
     type: TYPE_EMERGENCY,
-    // url: 'http://localhost:8080/emergency_messages.xml',
-    url: 'https://shared.uoit.ca/global/inc/get/emergencyfeeddemo.xml',
+    // url: 'http://localhost:8080/emergency_messages.xml', // testing
+    // url: 'https://shared.uoit.ca/global/inc/get/emergencyfeeddemo.xml', // staging
+    url: 'http://rss.blackboardconnect.com/182195/dcuoit/feed.xml', // production
     interval: 1000,
     xml: true,
     compare
