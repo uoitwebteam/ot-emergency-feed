@@ -162,7 +162,7 @@ client.on<TYPE_EMERGENCY, RSSFeed>(TYPE_EMERGENCY, ({ data }) => {
   } else {
     if (emergencyFeedMessageEl) {
       emergencyFeedMessageEl.innerHTML = `<p>
-        There are no emergencies at the University of Ontario Institute of Technology at this time.
+        There are no emergencies at Ontario Tech University at this time.
         <br>Please see information below for updates.
       </p>`;
     }

@@ -47,8 +47,8 @@ const SOURCE_LIST = [{
   {
     type: TYPE_EMERGENCY,
     // url: 'http://localhost:8080/emergency_messages.xml', // testing
-    // url: 'https://shared.uoit.ca/global/inc/get/emergencyfeeddemo.xml', // staging
-    url: 'http://rss.blackboardconnect.com/182195/dcuoit/feed.xml', // production
+    // url: 'http://alertus.oncampus.local/alertusmw/getFeed.jsp?alertServiceId=5&noAlertsTitle=Test&noAlertsMessage=This%20is%20a%20test', // staging
+    url: 'http://alertus.oncampus.local/alertusmw/getFeed.jsp?alertServiceId=5', // production
     interval: 1000,
     xml: true,
     compare
