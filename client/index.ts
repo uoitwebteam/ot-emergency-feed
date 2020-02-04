@@ -19,9 +19,9 @@ const client = new SocketPollClient();
 /**
  * Hold references to all feed containers (also provides a null checks).
  */
-const emergencyMessageBarEl = document.getElementById('emergencyMessageBar');
-const emergencyFeedMessageEl = document.getElementById('emergencyFeedMessage');
-const serviceDisruptionMessageEl = document.getElementById('serviceDisruptionMessage');
+const emergencyMessageBarEl = document.getElementById('emergency-message');
+const emergencyFeedMessageEl = document.getElementById('emergency-message-list');
+const serviceDisruptionMessageEl = document.getElementById('service-disruption-list');
 
 /**
  * A bind-ready function for running a 5-second countdown
