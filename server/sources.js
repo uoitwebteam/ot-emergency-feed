@@ -5,6 +5,17 @@ const TYPE_DISRUPTION = 'disruption';
 const TYPE_EMERGENCY = 'emergency';
 const TYPE_WEATHER = 'weather';
 
+/**
+ * Comparison function that determines when a source is
+ * considered to have "new" information.
+ * 
+ * If the function returns `true`, that means that `oldItem == newItem`
+ * and nothing has changed. If it returns false, that indicates
+ * there is different information available.
+ * 
+ * @param {{rss:{channel:[{item: any[] | undefined }]}}} oldItem Array of RSS items extracted from old feed
+ * @param {{rss:{channel:[{item: any[] | undefined }]}}} newItem Array of RSS items extracted from new feed
+ */
 const compare = ({
   rss: {
     channel: [{
