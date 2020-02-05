@@ -10,7 +10,7 @@ import {
   TYPE_EMERGENCY
 } from './models';
 
-const REDIRECT_URL = 'http://uoit.ca/emergency';
+const REDIRECT_URL = 'https://ontariotechu.ca/campus-services/safety-security/emergency-information.php';
 
 const rss = new RSSUtility();
 const toast = new Notification();
@@ -45,7 +45,7 @@ const onNotify = function startCountdown() {
 /**
  * Performs a redirect after notification has been dismissed.
  */
-const onDismiss = () => document.location.assign(REDIRECT_URL);
+const onDismiss = () => window.location.assign(REDIRECT_URL);
 
 /**
  * Listens to incoming service disruption socket data. Responsible for
@@ -68,7 +68,7 @@ client.on<TYPE_DISRUPTION, RSSFeed>(TYPE_DISRUPTION, ({ data }) => {
           (item: ServiceDisruption) => `<div class="emergencyNewsItem">
         <a href="${item.link}" title="${item.title}"><img src="${item.mediaContent}" alt="${
             item.mediaDescription
-          }" width="100" height="67"></a>
+            }" width="100" height="67"></a>
         <p><strong><a href="${item.link}">${item.title}</strong></a></p>
         <p class="date">${item.pubDate}</p>
       </div>`
