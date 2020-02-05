@@ -9,7 +9,7 @@ const {
 } = require('./sources');
 
 const pss = new PollingSocketServer({
-  defaultInterval: 2000,
+  defaultInterval: 60000,
   checkHeartbeat: true,
   logging: true
 });
