@@ -17,9 +17,10 @@ const {
 const babelOptions = {
   presets: [
     [
-      'env', {
+      '@babel/env', {
         'modules': false,
-        'include': ['es6.object.assign', 'es6.array.find', 'es6.array.from']
+        'useBuiltIns': 'usage',
+        'corejs': 3
       }
     ]
   ]
