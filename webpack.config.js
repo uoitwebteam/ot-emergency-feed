@@ -4,9 +4,9 @@ const {
   getIfUtils,
   removeEmpty
 } = require('webpack-config-utils');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+// const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const nodeEnv = process.env.NODE_ENV || 'development';
 const {
@@ -18,13 +18,16 @@ const babelOptions = {
   presets: [
     [
       'env', {
-        'modules': false
+        'modules': false,
+        'include': ['es6.object.assign', 'es6.array.find', 'es6.array.from']
       }
     ]
   ]
 }
 
 module.exports = removeEmpty({
+  mode: nodeEnv,
+
   entry: './client/index.ts',
 
   output: {
@@ -35,17 +38,11 @@ module.exports = removeEmpty({
   module: {
     rules: [{
         test: /\.(sass|scss)$/,
-        loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader', 'sass-loader'],
-        }),
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader'],
-        }),
+        loader: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.ts(x?)$/,
@@ -93,11 +90,6 @@ module.exports = removeEmpty({
   }),
 
   plugins: removeEmpty([
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(nodeEnv),
-      },
-    }),
 
     // ifDevelopment(
     new HtmlWebpackPlugin({
@@ -111,9 +103,6 @@ module.exports = removeEmpty({
 
     // ifProduction(new CopyWebpackPlugin([{ from: 'assets', to: 'assets' }])),
 
-    ifProduction(
-      new ExtractTextPlugin('[name]-bundle-[hash].css'),
-      new ExtractTextPlugin('[name]-bundle.css')
-    ),
+    new MiniCssExtractPlugin()
   ]),
 });
