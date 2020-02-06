@@ -15,7 +15,7 @@ const pss = new PollingSocketServer({
 });
 
 pss.app.use(cors());
-pss.app.use(express.static('public'));
+pss.app.use(express.static('dist'));
 pss.app.use(express.static('server/xml'));
 pss.sources(SOURCE_LIST);
 pss.broadcast(process.env.PORT || 8080);
