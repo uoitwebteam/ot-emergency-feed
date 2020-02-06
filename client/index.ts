@@ -14,7 +14,7 @@ const REDIRECT_URL = 'https://ontariotechu.ca/campus-services/safety-security/em
 
 const rss = new RSSUtility();
 const toast = new Notification();
-const client = new SocketPollClient();
+const client = new SocketPollClient('wss://uoit-emergency-feed.herokuapp.com/');
 
 /**
  * Hold references to all feed containers (also provides a null checks).
