@@ -163,7 +163,7 @@ client.on<TYPE_EMERGENCY, RSSFeed>(TYPE_EMERGENCY, ({ data }) => {
     if (emergencyFeedMessageEl) {
       emergencyFeedMessageEl.innerHTML = `<p>
         There are no emergencies at Ontario Tech University at this time.
-        <br>Please see information below for updates.
+        <br>Local disruptions affecting the university can be found below or on the <a href="https://ontariotechu.ca/disruptions">service disruptions page</a>.
       </p>`;
     }
     if (emergencyMessageBarEl) {
