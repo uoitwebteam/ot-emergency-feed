@@ -26,7 +26,6 @@
     "webpack": "webpack --progress",
     "clean": "rm -rf public/**",
     "start": "npm run dev-server & webpack-dev-server",
-    "postinstall": "npm run build",
     "dev-server": "nodemon server --harmony",
     "server": "node server --harmony"
   },
