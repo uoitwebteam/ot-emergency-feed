@@ -33,7 +33,7 @@ module.exports = removeEmpty({
 
   output: {
     filename: ifProduction('[name]-bundle.[hash].js', '[name]-[hash].js'),
-    path: path.resolve(__dirname, 'public'),
+    path: path.resolve(__dirname, 'dist'),
   },
 
   module: {

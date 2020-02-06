@@ -25,8 +25,9 @@
   "scripts": {
     "build": "npm run clean && NODE_ENV=production npm run webpack -- -p",
     "webpack": "webpack --progress",
-    "clean": "rm -rf public/**",
+    "clean": "rm -rf dist/**",
     "start": "npm run dev-server & webpack-dev-server",
+    "install": "npm run build",
     "dev-server": "nodemon server --harmony",
     "server": "node server --harmony"
   },
