@@ -53,7 +53,7 @@ export class RSSUtility {
     try {
       let pubDate;
       if (data.rss.channel && data.rss.channel[0].item) {
-        pubDate = (data.rss.channel[0].pubDate || data.rss.channel[0].item[0].pubDate)[0];
+        pubDate = (data.rss.channel[0].item[0].pubDate)[0];
       }
       cookieDate = new Date(pubDate).getTime().toString();
     } catch (err) {
@@ -62,10 +62,11 @@ export class RSSUtility {
     }
     const lastViewedPubDate = this._getCookie(cookieName);
     const viewedStatus = cookieDate === lastViewedPubDate;
+
     if (callback) {
       callback(viewedStatus);
     }
-    return viewedStatus || (this._setCookie(cookieName, cookieDate) || false);
+    return viewedStatus || this._setCookie(cookieName, cookieDate);
   }
 
   /**
@@ -110,5 +111,6 @@ export class RSSUtility {
     const date = new Date();
     date.setTime(date.getTime() + TWO_WEEKS);
     document.cookie = `${name}=${value}; expires=${date.toUTCString()}; path=/;`;
+    return false;
   }
 }

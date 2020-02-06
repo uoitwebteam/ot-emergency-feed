@@ -5,6 +5,17 @@ const TYPE_DISRUPTION = 'disruption';
 const TYPE_EMERGENCY = 'emergency';
 const TYPE_WEATHER = 'weather';
 
+/**
+ * Comparison function that determines when a source is
+ * considered to have "new" information.
+ * 
+ * If the function returns `true`, that means that `oldItem == newItem`
+ * and nothing has changed. If it returns false, that indicates
+ * there is different information available.
+ * 
+ * @param {{rss:{channel:[{item: any[] | undefined }]}}} oldItem Array of RSS items extracted from old feed
+ * @param {{rss:{channel:[{item: any[] | undefined }]}}} newItem Array of RSS items extracted from new feed
+ */
 const compare = ({
   rss: {
     channel: [{
@@ -48,8 +59,9 @@ const SOURCE_LIST = [{
     type: TYPE_EMERGENCY,
     // url: 'http://localhost:8080/emergency_messages.xml', // testing
     // url: 'http://alertus.oncampus.local/alertusmw/getFeed.jsp?alertServiceId=5&noAlertsTitle=Test&noAlertsMessage=This%20is%20a%20test', // staging
-    url: 'http://alertus.oncampus.local/alertusmw/getFeed.jsp?alertServiceId=5', // production
-    interval: 1000,
+    url: 'https://api.ontariotechu.ca/v2/util/rss-add-severity?url=http://alertus.oncampus.local/alertusmw/getFeed.jsp&severity=emergency', // production (proxy)
+    // url: 'http://alertus.oncampus.local/alertusmw/getFeed.jsp?alertServiceId=5', // production
+    interval: 10000,
     xml: true,
     compare
   }
