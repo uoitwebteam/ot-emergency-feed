@@ -1,6 +1,6 @@
-# UOIT Emergency Feed
+# Ontario Tech Emergency Feed
 
-This repository contains the source files for the UOIT emergency notification system, which is responsible for displaying messages and redirecting users during campus emergencies or service disruptions.
+This repository contains the source files for the OT emergency notification system, which is responsible for displaying messages and redirecting users during campus emergencies or service disruptions.
 
 The repository is subdivided into two portions –
 - `server`:
@@ -20,8 +20,8 @@ All library source material is stored in a separate repository and can be found 
 
 1. Clone this repo and make it your working directory:
 	```sh
-	git clone https://github.com/uoitwebteam/uoit-emergency-feed.git
-	cd uoit-emergency-feed
+	git clone https://github.com/uoitwebteam/ot-emergency-feed.git
+	cd ot-emergency-feed
 	```
 2. Run a package installer from the root directory. You have two options to choose from:
 	```sh

@@ -25,10 +25,10 @@ export class MessageBase {
   ];
   /**
    * Changes a valid date string (i.e. one that that can be used
-   * in a `new Date()` instance) into UOIT-friendly formatting. See
-   * the [brand.uoit.ca](1) page on date formatting.
+   * in a `new Date()` instance) into OT-friendly formatting. See
+   * the [brand.ontariotechu.ca](1) page on date formatting.
    * 
-   * [1]: https://brand.uoit.ca/documentation-and-guides/editorial-style-guide/style-guidelines/dates.php
+   * [1]: https://brand.ontariotechu.ca/documentation-and-guides/editorial-style-guide/style-guidelines/dates.php
    * 
    * @protected
    * @param {string} dateString 

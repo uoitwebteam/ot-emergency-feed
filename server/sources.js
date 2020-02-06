@@ -50,8 +50,8 @@ const compare = ({
 const SOURCE_LIST = [{
     type: TYPE_DISRUPTION,
     // url: 'http://localhost:8080/service_disruptions.xml', // testing
-    // url: 'https://shared.uoit.ca/global/inc/get/servicedisruptionsdemo.xml', // staging
-    url: 'https://news.uoit.ca/topic/service_disruptions.xml', // production
+    // url: 'https://shared.ontariotechu.ca/global/inc/get/servicedisruptionsdemo.xml', // staging
+    url: 'https://news.ontariotechu.ca/topic/service_disruptions.xml', // production
     xml: true,
     compare
   },
