@@ -20,7 +20,9 @@
     "core-js": "^3.6.4",
     "cors": "^2.8.4",
     "express": "^4.16.3",
-    "mighty-polling-socket-server": "^1.2.5"
+    "foundation-sites": "^6.3.1",
+    "mighty-polling-socket-server": "^1.2.5",
+    "ot-sites": "github:uoitwebteam/global3#master"
   },
   "scripts": {
     "build": "npm run clean && NODE_ENV=production npm run webpack -- -p",
