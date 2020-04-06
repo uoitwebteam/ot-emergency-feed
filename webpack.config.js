@@ -39,7 +39,16 @@ module.exports = removeEmpty({
   module: {
     rules: [{
         test: /\.(sass|scss)$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                includePaths: ['./node_modules'],
+              },
+            },
+          }
+        ]
       },
       {
         test: /\.css$/,
