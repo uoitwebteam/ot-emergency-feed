@@ -7,13 +7,12 @@
 <head>
   <meta charset="utf-8">
   <title>Ontario Tech Emergency Feed</title>
-  <% if (htmlWebpackPlugin.options.mobile) { %>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <% } %>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <% for (var css in htmlWebpackPlugin.files.css) { %>
   <link href="<%= htmlWebpackPlugin.files.css[css] %>" rel="stylesheet">
   <% } %>
-  <link href="https://shared.ontariotechu.ca/global-2.1/dist/css/uoit.css" rel="stylesheet">
+  <link href="https://shared.uoit.ca/global/files/css/uoit.css" rel="stylesheet">
+  <script src="https://shared.ontariotechu.ca/global/files/js/jquery.min.js" type="text/javascript"></script>
 </head>
 <body>
 <% if (htmlWebpackPlugin.options.window) { %>
@@ -24,11 +23,11 @@
 </script>
 <% } %>
 
-<div id="emergency-message"></div>
+<div id="emergencyMessageBar"></div>
 <div class="page-row row flex-container align-middle align-center">
   <div class="page-content">
     <h1>Emergency messages</h1>
-    <div class="callout grey" id="emergency-message-list">
+    <div class="callout grey" id="emergencyFeedMessage">
     </div>
     <hr/>
     <h2>Service disruption news</h2>
@@ -42,5 +41,6 @@
 <% if (htmlWebpackPlugin.options.devServer) { %>
 <script src="<%= htmlWebpackPlugin.options.devServer%>/webpack-dev-server.js"></script>
 <% } %>
+<script src="https://shared.ontariotechu.ca/global/files/js/global.js" type="text/javascript"></script>
 </body>
 </html>
