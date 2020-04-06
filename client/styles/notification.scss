@@ -1,55 +1,95 @@
 @import './variables.scss';
 
-.alert-callout.notification {
+.notification-container {
+  display: flex;
+  flex-direction: column;
   position: fixed;
-  padding-right: 3rem;
-  margin: 1rem;
-  background: $light-gray;
-  color: $dark-gray;
-  border: 0;
-  border-left: $alert-callout-notification-border-left-width solid $dark-gray;
-  box-shadow: 0 5px 8px -6px rgba(0,0,0, 0.2);
+  top: 0;
+  bottom: 0;
+  z-index: 100;
   
+  width: 100%;
+  padding: 1rem;
+
+  @include breakpoint(xsmall) {
+    width: 70%;
+  }
+
+  @include breakpoint(small) {
+    width: 50%;
+  }
+
+  @include breakpoint(medium) {
+    width: 40%;
+  }
+
+  @include breakpoint(large) {
+    width: 30%;
+  }
+
   &.notification-left {
     left: 0;
-  }
-  &.notification-top {
-    top: 0;
   }
   &.notification-right {
     right: 0;
   }
+  &.notification-top {
+    justify-content: flex-start;
+  }
   &.notification-bottom {
-    bottom: 0;
+    justify-content: flex-end;
+  }
+}
+
+.callout.notification {
+  padding-right: 3rem;
+  background: $greylight;
+  color: $grey;
+  border: 0;
+  border-left: $callout-notification-border-left-width solid $grey;
+  box-shadow: 0 5px 8px -6px rgba(0,0,0, 0.2);
+  animation-duration: 0.4s;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &.success, &.alert, &.warning, &.emergency, &.primary, &.secondary, &.accent {
+    background: $greylight;
+    color: $grey;
   }
 
   &.success {
-    background: $light-gray;
-    color: $dark-gray;
-    border-left: $alert-callout-notification-border-left-width solid $success-color;
+    border-left: $callout-notification-border-left-width solid $success;
   }
 
   &.alert {
-    background: $light-gray;
-    color: $dark-gray;
-    border-left: $alert-callout-notification-border-left-width solid $alert-color;
+    border-left: $callout-notification-border-left-width solid $alert;
   }
 
   &.warning {
-    background: $light-gray;
-    color: $dark-gray;
-    border-left: $alert-callout-notification-border-left-width solid $warning-color;
+    border-left: $callout-notification-border-left-width solid $warning;
+  }
+
+  &.emergency {
+    border-left: $callout-notification-border-left-width solid $emergency;
   }
 
   &.primary {
-    background: $light-gray;
-    color: $dark-gray;
-    border-left: $alert-callout-notification-border-left-width solid $primary-color;
+    border-left: $callout-notification-border-left-width solid $primary;
+  }
+
+  &.secondary {
+    border-left: $callout-notification-border-left-width solid $secondary;
+  }
+
+  &.accent {
+    border-left: $callout-notification-border-left-width solid $accent;
   }
 
   &.small {
 
-    font-size: $alert-callout-notification-small-font-scale;
+    font-size: $callout-notification-small-font-scale;
 
     .close-button {
       font-size: 1.5rem;
@@ -57,7 +97,7 @@
   }
 
   &.large {
-    font-size: $alert-callout-notification-large-font-scale;
+    font-size: $callout-notification-large-font-scale;
 
     .close-button {
       font-size: 3rem;
@@ -69,6 +109,6 @@
   }
 
   &.radius {
-    border-radius: $alert-callout-notification-radius;
+    border-radius: $callout-notification-radius;
   }
 }

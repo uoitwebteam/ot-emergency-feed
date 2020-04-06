@@ -1,89 +1,133 @@
 import '../styles/notification.scss';
 
 export type NotificationOptions = Partial<{
-  duration: number,
-  className: string,
-  countdown: boolean,
+  duration: number;
+  className: string;
+  linkUrl: string;
   position: Partial<{
-    left: boolean,
-    right: boolean,
-    top: boolean,
-    bottom: boolean
+    left: boolean;
+    right: boolean;
+    top: boolean;
+    bottom: boolean;
   }>,
-  disableAnimation: boolean,
-  onNotify(): void,
-  onDismiss(): void
+  disableAnimation: boolean;
+  onNotify(): void;
+  onDismiss(): void;
+  onClick(): void;
 }>;
 
-export class Notification {
-  private _options: NotificationOptions;
-  private _notification: Element;
+export class ToastNotification {
+  static DEFAULTS: NotificationOptions = {
+    position: {
+      right: true,
+      bottom: true
+    }
+  };
 
-  constructor(private _defaults: NotificationOptions = {}) { }
+  private _notificationContainer: Element;
+
+  constructor(private _defaults: NotificationOptions = ToastNotification.DEFAULTS) {
+    let notificationContainer = document.querySelector('.notification-container');
+    console.log(notificationContainer);
+    if (!notificationContainer) {
+      const notificationClasses = Object.keys(this._defaults.position).reduce((classes, key) => {
+        this._defaults.position[key] && classes.push(`notification-${key}`);
+        return classes;
+      }, []);
+      this._defaults.className && notificationClasses.push(this._defaults.className);
+      !this._defaults.disableAnimation && notificationClasses.push('animated');
+      notificationContainer = document.createElement('div');
+      notificationContainer.className = `notification-container ${notificationClasses.join(' ')}`;
+      document.body.appendChild(notificationContainer);
+    }
+    this._notificationContainer = notificationContainer;
+  }
 
   notify(message: string, options: NotificationOptions = {}) {
-    this._options = {...this._defaults, ...options};
-    this._notification = this._getNotification(message);
-    this._transitionIn();
-    if (this._options.duration) {
+    const opts = {...this._defaults, ...options};
+    const notification = this._getNotification(message, opts);
+    this._transitionIn(notification, opts);
+    if (opts.duration && opts.duration > 0) {
       setTimeout(() => {
-        this._transitionOut();
-      }, this._options.duration);
+        this._transitionOut(notification, opts);
+      }, opts.duration);
     }
-    return this;
+    return {
+      dismiss: () => this._transitionOut(notification, opts)
+    };
   }
 
-  dismiss() {
-    this._transitionOut();
-  }
-
-  private _getNotification(message: string) {
-    const notificationClasses = this._getNotificationClasses();
+  private _getNotification(message: string, options: NotificationOptions = {}) {
     const template = document.createElement('template');
-    template.innerHTML = `<div data-closable class="callout alert-callout ${notificationClasses}">
+    const className = options.className ? ` ${options.className}` : '';
+    const linkHref = options.linkUrl ? ` href="${options.linkUrl}"` : '';
+    const outerElement = options.linkUrl ?  'a' : 'div';
+    template.innerHTML = `<${outerElement}${linkHref} class="callout notification${className}">
       ${message}
-      <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+      <button class="close-button" aria-label="Dismiss alert" type="button">
         <span aria-hidden="true">⊗</span>
       </button>
-    </div>`;
-    return template.content.firstChild as Element;
+    </${outerElement}>`;
+    const notification = template.content.firstChild as Element;
+    const closeButton = notification.querySelector('.close-button');
+    const closeListener = event => {
+      event.preventDefault();
+      this._transitionOut(notification, options);
+      closeButton.removeEventListener('click', closeListener);
+    };
+    closeButton.addEventListener('click', closeListener);
+    return notification;
   }
 
-  private _transitionIn() {
-    if (this._options.disableAnimation) {
-      document.body.appendChild(this._notification);
-      this._options.onNotify && this._options.onNotify.apply(this._notification);
+  private _transitionIn(notification, options: NotificationOptions = {}) {
+    options.onClick && notification.addEventListener('click', options.onClick);
+    if (options.disableAnimation) {
+      if (options.position.top) {
+        this._notificationContainer.prepend(notification);
+      } else {
+        this._notificationContainer.appendChild(notification);
+      }
+      options.onNotify && options.onNotify.apply(notification);
     } else {
-      this._notification.classList.remove('fadeOutUp');
-      this._notification.classList.add('fadeInDown');
-      document.body.appendChild(this._notification);
-      setTimeout(() => {
-        this._options.onNotify && this._options.onNotify.apply(this._notification);
-      }, 1000);
+      if (options.position.left) {
+        notification.classList.remove('fadeOutLeft');
+        notification.classList.add('fadeInLeft');
+      } else {
+        notification.classList.remove('fadeOutRight');
+        notification.classList.add('fadeInRight');
+      }
+      if (options.position.top) {
+        this._notificationContainer.prepend(notification);
+      } else {
+        this._notificationContainer.appendChild(notification);
+      }
+      const animationEnd = () => {
+        options.onNotify && options.onNotify.apply(notification);
+        notification.removeEventListener('animationend', animationEnd);
+      };
+      notification.addEventListener('animationend', animationEnd);
     }
   }
 
-  private _transitionOut() {
-    if (this._options.disableAnimation) {
-      document.body.removeChild(this._notification);
-      this._options.onDismiss && this._options.onDismiss.apply(this._notification);
+  private _transitionOut(notification: Element, options: NotificationOptions = {}) {
+    options.onClick && notification.removeEventListener('click', options.onClick);
+    if (options.disableAnimation) {
+      this._notificationContainer.removeChild(notification);
+      options.onDismiss && options.onDismiss.apply(notification);
     } else {
-      this._notification.classList.remove('fadeInDown');
-      this._notification.classList.add('fadeOutUp');
-      setTimeout(() => {
-        document.body.removeChild(this._notification);
-        this._options.onDismiss && this._options.onDismiss.apply(this._notification);
-      }, 1000);
+      if (options.position.left) {
+        notification.classList.remove('fadeInLeft');
+        notification.classList.add('fadeOutLeft');
+      } else if (options.position.right) {
+        notification.classList.remove('fadeInRight');
+        notification.classList.add('fadeOutRight');
+      }
+      const animationEnd = () => {
+        this._notificationContainer.removeChild(notification);
+        options.onDismiss && options.onDismiss.apply(notification);
+        notification.removeEventListener('animationend', animationEnd);
+      };
+      notification.addEventListener('animationend', animationEnd);
     }
-  }
-
-  private _getNotificationClasses() {
-    const notificationClasses = ['notification'];
-    this._options.position && Object.keys(this._options.position).forEach(key => {
-      this._options.position[key] && notificationClasses.push(`notification-${key}`);
-    });
-    this._options.className && notificationClasses.push(this._options.className);
-    !this._options.disableAnimation && notificationClasses.push('animated');
-    return notificationClasses.join(' ');
   }
 }
